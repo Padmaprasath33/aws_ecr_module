@@ -2,6 +2,8 @@ resource "aws_ecr_repository" "cohort_demo" {
   name                 = "cohort_demo"
   image_tag_mutability = "IMMUTABLE"
 
+  force_delete = true
+
   image_scanning_configuration {
     scan_on_push = true
   }
