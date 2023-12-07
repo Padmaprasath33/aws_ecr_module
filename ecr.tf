@@ -11,6 +11,7 @@ resource "aws_ecr_repository" "cohort_demo" {
   encryption_configuration {
     encryption_type = "KMS"
   }
+  tags = var.resource_tags_dr
 }
 
 resource "aws_ecr_lifecycle_policy" "cohort_demo_policy" {
