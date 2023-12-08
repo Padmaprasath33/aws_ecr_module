@@ -1,5 +1,5 @@
-resource "aws_ecr_repository" "cohort_demo" {
-  name                 = "cohort_demo"
+resource "aws_ecr_repository" "cohort_demo_ui" {
+  name                 = "cohort_demo_ui"
   image_tag_mutability = "IMMUTABLE"
 
   force_delete = true
@@ -14,27 +14,32 @@ resource "aws_ecr_repository" "cohort_demo" {
   tags = var.resource_tags_dr
 }
 
-resource "aws_ecr_lifecycle_policy" "cohort_demo_policy" {
-  repository = aws_ecr_repository.cohort_demo.name
+resource "aws_ecr_lifecycle_policy" "cohort_demo_ui_policy" {
+  repository = aws_ecr_repository.cohort_demo_ui.name
 
-  policy = <<EOF
-{
-    "rules": [
-        {
-            "rulePriority": 1,
-            "description": "Keep only last 10 image versions and expire others",
-            "selection": {
-                "tagStatus": "any",
-                "countType": "imageCountMoreThan",
-                "countNumber": 10
-            },
-            "action": {
-                "type": "expire"
-            }
-        }
-    ]
+  policy = file("${path.module}/ecr_lifecycle_policy.json")
 }
-EOF
+
+resource "aws_ecr_repository" "cohort_demo_backend" {
+  name                 = "cohort_demo_backend"
+  image_tag_mutability = "IMMUTABLE"
+
+  force_delete = true
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  encryption_configuration {
+    encryption_type = "KMS"
+  }
+  tags = var.resource_tags_dr
+}
+
+resource "aws_ecr_lifecycle_policy" "cohort_demo_backend_policy" {
+  repository = aws_ecr_repository.cohort_demo_backend.name
+
+  policy = file("${path.module}/ecr_lifecycle_policy.json")
 }
 
 data "aws_caller_identity" "current" {}
