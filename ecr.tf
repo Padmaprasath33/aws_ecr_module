@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "cohort_demo_ui" {
-  name                 = "cohort_demo_ui"
+  name                 = "2191420-cohort-demo-ui"
   image_tag_mutability = "IMMUTABLE"
 
   force_delete = true
@@ -21,7 +21,7 @@ resource "aws_ecr_lifecycle_policy" "cohort_demo_ui_policy" {
 }
 
 resource "aws_ecr_repository" "cohort_demo_backend" {
-  name                 = "cohort_demo_backend"
+  name                 = "2191420-cohort-demo-backend"
   image_tag_mutability = "IMMUTABLE"
 
   force_delete = true
