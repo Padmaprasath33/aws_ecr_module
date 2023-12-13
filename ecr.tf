@@ -52,7 +52,7 @@ resource "aws_ecr_replication_configuration" "cohort_demo_crr" {
         registry_id = data.aws_caller_identity.current.account_id
       }
       repository_filter {
-        filter      = "cohort_demo"
+        filter      = "2191420-cohort-demo"
         filter_type = "PREFIX_MATCH"
       }
     }
